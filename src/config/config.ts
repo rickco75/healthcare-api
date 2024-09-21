@@ -11,9 +11,10 @@ dotenv.config();
 export const config = {
   port: process.env.PORT || 3000,
   database: {
-    type: 'sqlite',
+    type: process.env.DATABASE_TYPE || 'sqlite',
     database: process.env.DB_NAME || 'database.sqlite',
-    synchronize: true,
-    logging: false,
+    synchronize: process.env.DATABASE_SYNCHRONIZE || true,
+    logging: process.env.DATABASE_LOGGING || false,
   },
+
 };

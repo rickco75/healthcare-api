@@ -11,9 +11,10 @@ export const initializeDatabase = async (): Promise<DataSource> => {
     type: config.database.type as 'sqlite',
     database: config.database.database,
     entities: [User],
-    synchronize: config.database.synchronize, // Note: Set to false in production
-    logging: config.database.logging,
+    synchronize: Boolean(config.database.synchronize), // Note: Set to false in production
+    logging: Boolean(config.database.logging),
   });
+
 
 
   await dataSource.initialize();

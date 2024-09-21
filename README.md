@@ -1,6 +1,6 @@
 # Healthcare API
 
-Welcome to the **Healthcare API**, a robust and scalable backend service designed to manage healthcare-related data efficiently. Built with Node.js, TypeScript, and leveraging powerful technologies like Apollo Server, GraphQL, and TypeORM, this API ensures high performance, security, and maintainability.
+Welcome to the **Healthcare API**, a robust and scalable backend service designed to manage healthcare-related data efficiently. Built with Node.js, TypeScript, and leveraging Express.js and SQLite, this API ensures high performance, security, and maintainability.
 
 ## Table of Contents
 
@@ -21,21 +21,18 @@ Welcome to the **Healthcare API**, a robust and scalable backend service designe
 
 ## Features
 
-- **GraphQL API**: Seamless data querying and manipulation with GraphQL.
-- **TypeORM Integration**: Efficient database interactions with PostgreSQL.
-- **Validation**: Comprehensive input validation using Zod schemas.
+- **RESTful API**: Efficient data querying and manipulation with Express.js.
+- **TypeORM Integration**: Efficient database interactions with SQLite.
 - **Error Handling**: Centralized error management with custom middleware and exception handlers.
-- **Testing**: Robust testing suite with Jest for unit, integration, and E2E tests.
+- **Testing**: Unit testing with Jest.
 - **Linting & Formatting**: Consistent code quality with ESLint and Prettier.
-- **Authentication & Authorization**: Secure authentication mechanisms and role-based access control.
 
 ## Technology Stack
 
 - **Runtime**: [Node.js](https://nodejs.org/)
 - **Language**: [TypeScript](https://www.typescriptlang.org/)
-- **API**: [GraphQL](https://graphql.org/) with [Apollo Server](https://www.apollographql.com/)
-- **Database**: [PostgreSQL](https://www.postgresql.org/) with [TypeORM](https://typeorm.io/)
-- **Validation**: [Zod](https://github.com/colinhacks/zod)
+- **API Framework**: [Express.js](https://expressjs.com/)
+- **Database**: [SQLite](https://www.sqlite.org/) with [TypeORM](https://typeorm.io/)
 - **Testing**: [Jest](https://jestjs.io/)
 - **Linting**: [ESLint](https://eslint.org/)
 - **Development Tools**: [Nodemon](https://nodemon.io/), [ts-node](https://typestrong.org/ts-node/)
@@ -48,14 +45,13 @@ Ensure you have the following installed on your machine:
 
 - [Node.js](https://nodejs.org/) (v14 or later)
 - [Yarn](https://yarnpkg.com/)
-- [PostgreSQL](https://www.postgresql.org/) database
 
 ### Installation
 
 1. **Clone the repository**
 
    ```bash
-   git clone https://github.com/your-username/healthcare-api.git
+   git clone https://github.com/rickco75/healthcare-api.git
    cd healthcare-api
    ```
 
@@ -72,28 +68,21 @@ Ensure you have the following installed on your machine:
    Create a `.env` file in the root directory and define the necessary environment variables. Refer to the `.env.example` file for guidance.
 
    ```env
-   DATABASE_HOST=localhost
-   DATABASE_PORT=5432
-   DATABASE_USERNAME=your_username
-   DATABASE_PASSWORD=your_password
-   DATABASE_NAME=healthcare_db
-   PORT=4000
-   JWT_SECRET=your_jwt_secret
+   DATABASE_PATH=./database.sqlite
+   PORT=3000
+   DATABASE_TYPE=sqlite
+   DATABASE_SYNCHRONIZE=true
+   DATABASE_LOGGING=true
    ```
 
 ## Environment Variables
 
 Ensure the following environment variables are set in your `.env` file:
 
-| Variable            | Description                                        | Example           |
-| ------------------- | -------------------------------------------------- | ----------------- |
-| `DATABASE_HOST`     | Hostname of the PostgreSQL database                | `localhost`       |
-| `DATABASE_PORT`     | Port number of the PostgreSQL database             | `5432`            |
-| `DATABASE_USERNAME` | Username for the PostgreSQL database               | `admin`           |
-| `DATABASE_PASSWORD` | Password for the PostgreSQL database               | `securepassword`  |
-| `DATABASE_NAME`     | Name of the PostgreSQL database                    | `healthcare_db`   |
-| `PORT`              | Port number on which the server will run           | `4000`            |
-| `JWT_SECRET`        | Secret key for JWT authentication                  | `your_jwt_secret` |
+| Variable        | Description                              | Example                    |
+| --------------- | ---------------------------------------- | -------------------------- |
+| `DATABASE_PATH` | Path to the SQLite database file         | `./data/healthcare.sqlite` |
+| `PORT`          | Port number on which the server will run | `4000`                     |
 
 ## Scripts
 
@@ -131,39 +120,16 @@ Defined in the `package.json` file for various development tasks.
 
 ## Project Structure
 
-```bash
-yarn test --coverage
-```
-
 ```plaintext
 healthcare-api/
 ├── src/
-│   ├── modules/
-│   │   ├── user/
-│   │   │   ├── user.module.ts
-│   │   │   ├── user.service.ts
-│   │   │   ├── user.resolver.ts
-│   │   │   └── dto/
-│   │   └── auth/
-│   │       ├── auth.module.ts
-│   │       ├── auth.service.ts
-│   │       └── auth.resolver.ts
-│   ├── common/
-│   │   ├── pipes/
-│   │   │   └── zod-validation.pipe.ts
-│   │   ├── middleware/
-│   │   │   └── error-handler.middleware.ts
-│   │   └── exceptions/
-│   │       └── custom-exception.ts
-│   ├── schemas/
-│   │   ├── user.schema.ts
-│   │   └── auth.schema.ts
-│   ├── database/
-│   │   └── ormconfig.ts
+│   ├── controllers/
+│   ├── services/
+│   ├── models/
+│   ├── routes/
+│   ├── middleware/
 │   ├── utils/
-│   │   └── logger.ts
-│   ├── types/
-│   │   └── index.ts
+│   ├── config/
 │   └── index.ts
 ├── test/
 │   ├── unit/
@@ -180,24 +146,16 @@ healthcare-api/
 
 ## Testing
 
-Comprehensive testing ensures the reliability and robustness of the application.
+The project uses Jest for unit testing. Test files are located in the same directory as the files they are testing against.
 
-- **Unit Tests**: Located in the `test/unit/` directory.
+Currently, there is one test file:
 
-  ```bash
-  yarn test
-  ```
+- `UserService.test.ts`: Located in the `src/services/` directory, testing the UserService.
 
-- **Integration Tests**: Located in the `test/integration/` directory.
-
-- **End-to-End Tests**: Located in the `test/e2e/` directory using tools like Supertest or Cypress.
-
-**Test Coverage**
-
-Aim for high test coverage to ensure all critical paths are tested. Generate coverage reports using Jest:
+To run tests:
 
 ```bash
-yarn test --coverage
+yarn test
 ```
 
 ## Linting
